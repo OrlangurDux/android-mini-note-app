@@ -1,0 +1,30 @@
+*.iml
+.gradle/
+/local.properties
+local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/shelf
+.DS_Store
+**/build/
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+*.ap_
+*.aab
+
+# Kotlin daemon / incremental-compilation cache (K2 build-tools API, AGP 9)
+.kotlin/
+
+# Claude Code: local, machine-specific session config — not meant to be shared
+.claude/settings.local.json
+
+# Claude Code / AI-assistant guidance file — internal working notes, not part of the shipped app
+CLAUDE.md
+
+mini-note-design/

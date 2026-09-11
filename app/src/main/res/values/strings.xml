@@ -1,0 +1,199 @@
+<resources>
+    <string name="app_name">MiniNote</string>
+
+    <string name="action_back">Назад</string>
+    <string name="action_confirm">Подтвердить</string>
+    <string name="action_create">Создать</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_done">Готово</string>
+    <string name="action_hide_password">Скрыть пароль</string>
+    <string name="action_login">Войти</string>
+    <string name="action_search">Поиск</string>
+    <string name="action_servers">Серверы</string>
+    <string name="action_show_password">Показать пароль</string>
+
+    <string name="state_loading">Загрузка…</string>
+    <string name="state_offline">Офлайн. Изменения сохраняются локально и синхронизируются при подключении к сети.</string>
+
+    <string name="error_empty_password">Введите пароль</string>
+    <string name="error_invalid_email">Введите корректный email</string>
+    <string name="error_no_connection">Нет подключения к интернету</string>
+    <string name="error_no_data">Нет данных</string>
+    <string name="error_profile_not_found">Профиль не найден</string>
+    <string name="error_server_code">Ошибка сервера (%1$d)</string>
+    <string name="error_unexpected">Что-то пошло не так. Попробуйте ещё раз.</string>
+    <string name="error_tfa_setup_failed">Не удалось получить данные для настройки 2FA</string>
+
+    <string name="tab_categories">Категории</string>
+    <string name="tab_notes">Заметки</string>
+    <string name="tab_profile">Профиль</string>
+
+    <string name="session_expired_title">Сессия истекла</string>
+    <string name="session_expired_message">Сессия истекла. Войдите снова, чтобы продолжить работу с заметками.</string>
+
+    <string name="login_title">С возвращением</string>
+    <string name="login_subtitle">Войдите, чтобы продолжить работу с заметками.</string>
+    <string name="login_forgot_password">Забыли пароль?</string>
+    <string name="login_no_account">Нет аккаунта?</string>
+    <string name="login_email_not_found_hint">Аккаунт с таким email не найден. Хотите зарегистрироваться?</string>
+
+    <string name="login_otp_title">Код подтверждения</string>
+    <string name="login_otp_subtitle">Введите 6-значный код из приложения-аутентификатора.</string>
+    <string name="login_otp_code_label">Код</string>
+    <string name="login_otp_expires_in">Код действителен ещё: %1$d с</string>
+    <string name="login_otp_expired">Время истекло. Войдите снова.</string>
+    <string name="login_otp_error_invalid_code">Введите 6-значный код</string>
+    <string name="login_otp_back_to_login">Ко входу</string>
+
+    <string name="signup_title">Регистрация</string>
+    <string name="signup_subtitle">Создайте аккаунт, чтобы начать работу с заметками.</string>
+    <string name="signup_name_label">Имя</string>
+    <string name="signup_submit">Создать аккаунт</string>
+    <string name="signup_error_email_taken">Этот email уже зарегистрирован</string>
+    <string name="signup_password_hint">Минимум 8 символов</string>
+
+    <string name="signup_sent_title">Проверьте почту</string>
+    <string name="signup_sent_subtitle">Мы отправили ссылку для подтверждения на %1$s</string>
+    <string name="signup_sent_action">Ко входу</string>
+
+    <string name="forgot_title">Восстановление</string>
+    <string name="forgot_email_field_label">Email</string>
+    <string name="forgot_email_subtitle">Введите email от аккаунта — пришлём 6-значный код.</string>
+    <string name="forgot_email_not_found">Аккаунт с таким email не найден</string>
+    <string name="forgot_send_code">Отправить код</string>
+    <string name="forgot_code_title">Код подтверждения</string>
+    <string name="forgot_code_subtitle">Мы отправили 6-значный код на %1$s</string>
+    <string name="forgot_code_field_label">Код</string>
+    <string name="forgot_code_hint">Код должен содержать 6 цифр</string>
+    <string name="forgot_new_password_title">Новый пароль</string>
+    <string name="forgot_update_password">Обновить пароль</string>
+    <string name="forgot_done_title">Пароль обновлён</string>
+    <string name="forgot_done_subtitle">Теперь можно войти с новым паролем.</string>
+    <string name="forgot_go_to_login">Ко входу</string>
+
+    <string name="notes_title">Заметки</string>
+    <string name="notes_new">Новая заметка</string>
+    <string name="notes_empty">Ничего не найдено</string>
+    <string name="notes_untitled">Без названия</string>
+    <string name="notes_search_placeholder">Поиск заметок</string>
+    <string name="notes_filter_all">Все</string>
+    <string name="notes_filter_starred">Избранное</string>
+    <string name="notes_filter_category">Категория</string>
+    <string name="notes_filter_category_selected">Категория: %1$s</string>
+    <string name="notes_select_hint">Выберите заметку слева</string>
+
+    <string name="category_all_categories">Все категории</string>
+
+    <string name="status_active">Публичный</string>
+    <string name="status_archived">Архив</string>
+    <string name="status_draft">Черновик</string>
+
+    <string name="note_title">Заметка</string>
+    <string name="note_title_label">Заголовок</string>
+    <string name="note_category_label">Категория</string>
+    <string name="note_status_label">Статус</string>
+    <string name="note_no_category">Без категории</string>
+    <string name="note_new_category">+ Новая категория</string>
+    <string name="note_editing">Редактирование</string>
+    <string name="note_edit">Редактировать</string>
+    <string name="note_saved">Сохранено</string>
+    <string name="note_not_found">Заметка не найдена</string>
+    <string name="note_updated_at">Обновлено: %1$s</string>
+    <string name="note_delete_title">Удалить заметку?</string>
+    <string name="note_delete_message">Заметка будет удалена без возможности восстановления.</string>
+
+    <string name="conflict_title">Рассинхронизация</string>
+    <string name="conflict_message">Эта заметка была изменена на сервере, пока вы редактировали её офлайн. Какую версию оставить?</string>
+    <string name="conflict_server_preview">На сервере: «%1$s»</string>
+    <string name="conflict_keep_local">Оставить мою версию</string>
+    <string name="conflict_accept_server">Принять версию с сервера</string>
+
+    <string name="markdown_bold">Жирный</string>
+    <string name="markdown_italic">Курсив</string>
+    <string name="markdown_bullet_list">Маркированный список</string>
+    <string name="markdown_numbered_list">Нумерованный список</string>
+    <string name="markdown_code">Код</string>
+
+    <string name="category_new_title">Новая категория</string>
+    <string name="category_rename">Переименовать</string>
+    <string name="category_rename_title">Переименовать категорию</string>
+    <string name="category_parent_label">Родительская категория</string>
+    <string name="category_top_level">Верхний уровень</string>
+    <string name="category_empty">Категорий пока нет</string>
+    <string name="category_delete_title">Удалить категорию «%1$s»?</string>
+    <string name="category_delete_message">Дочерние категории станут категориями верхнего уровня. Заметки этой категории останутся без категории.</string>
+
+    <string name="profile_title">Профиль</string>
+    <string name="profile_no_name">Без имени</string>
+    <string name="profile_section_account">Аккаунт</string>
+    <string name="profile_section_security">Безопасность</string>
+    <string name="profile_section_other">Другое</string>
+    <string name="profile_system_theme">Системная тема</string>
+    <string name="profile_dark_theme">Тёмная тема</string>
+    <string name="profile_language">Язык</string>
+    <string name="profile_password">Пароль</string>
+    <string name="profile_password_dialog_title">Смена пароля</string>
+    <string name="profile_password_new">Новый пароль</string>
+    <string name="profile_password_repeat">Повторите пароль</string>
+    <string name="profile_password_error_empty">Введите новый пароль</string>
+    <string name="profile_password_error_mismatch">Пароли не совпадают</string>
+    <string name="profile_password_changed">Пароль изменён</string>
+    <string name="profile_tfa">Двухфакторная аутентификация</string>
+    <string name="profile_tfa_setup_title">Настройка 2FA</string>
+    <string name="profile_tfa_setup_subtitle">Отсканируйте QR-код в приложении-аутентификаторе (Google Authenticator, Authy и т.п.)</string>
+    <string name="profile_tfa_setup_manual_hint">Или введите код вручную:</string>
+    <string name="profile_about">О приложении</string>
+    <string name="profile_sign_out">Выйти</string>
+    <string name="profile_save">Сохранить</string>
+    <string name="profile_cancel">Отмена</string>
+
+    <string name="language_dialog_title">Язык</string>
+    <string name="language_system">Как в системе</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_english">Английский</string>
+
+    <string name="about_title">О приложении</string>
+    <string name="about_version">Версия %1$s</string>
+    <string name="about_author">Автор: %1$s</string>
+    <string name="about_contact">Контакты: %1$s</string>
+    <string name="about_feedback_title">Обратная связь</string>
+    <string name="about_feedback_contact_label">Контакт для связи</string>
+    <string name="about_feedback_message_label">Сообщение</string>
+    <string name="about_feedback_send">Отправить</string>
+    <string name="about_feedback_sent">Спасибо! Ваше сообщение отправлено.</string>
+    <string name="about_feedback_error_fill_fields">Заполните имя и контакт</string>
+
+    <string name="servers_title">Серверы</string>
+    <string name="servers_add_title">Добавить сервер</string>
+    <string name="servers_name_label">Название</string>
+    <string name="servers_address_label">Адрес сервера</string>
+    <string name="servers_address_placeholder">10.0.2.2:9077</string>
+    <string name="servers_default_suffix">%1$s (по умолчанию)</string>
+    <string name="servers_error_fill_fields">Заполните название и адрес</string>
+
+    <string name="time_just_now">Только что</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d минуту назад</item>
+        <item quantity="few">%d минуты назад</item>
+        <item quantity="many">%d минут назад</item>
+        <item quantity="other">%d минут назад</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d час назад</item>
+        <item quantity="few">%d часа назад</item>
+        <item quantity="many">%d часов назад</item>
+        <item quantity="other">%d часов назад</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="one">%d день назад</item>
+        <item quantity="few">%d дня назад</item>
+        <item quantity="many">%d дней назад</item>
+        <item quantity="other">%d дней назад</item>
+    </plurals>
+    <plurals name="note_word_count">
+        <item quantity="one">%d слово</item>
+        <item quantity="few">%d слова</item>
+        <item quantity="many">%d слов</item>
+        <item quantity="other">%d слов</item>
+    </plurals>
+</resources>

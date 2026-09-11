@@ -1,0 +1,6 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Базовая тема окна до отрисовки Compose-контента; реальная M3 ColorScheme задаётся в ui/theme/Theme.kt -->
+    <style name="Theme.MiniNote" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+</resources>

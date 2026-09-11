@@ -1,0 +1,191 @@
+<resources>
+    <string name="app_name">MiniNote</string>
+
+    <string name="action_back">Back</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_create">Create</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_done">Done</string>
+    <string name="action_hide_password">Hide password</string>
+    <string name="action_login">Log in</string>
+    <string name="action_search">Search</string>
+    <string name="action_servers">Servers</string>
+    <string name="action_show_password">Show password</string>
+
+    <string name="state_loading">Loading…</string>
+    <string name="state_offline">Offline. Changes are saved locally and synced once you\'re back online.</string>
+
+    <string name="error_empty_password">Enter a password</string>
+    <string name="error_invalid_email">Enter a valid email</string>
+    <string name="error_no_connection">No internet connection</string>
+    <string name="error_no_data">No data</string>
+    <string name="error_profile_not_found">Profile not found</string>
+    <string name="error_server_code">Server error (%1$d)</string>
+    <string name="error_unexpected">Something went wrong. Please try again.</string>
+    <string name="error_tfa_setup_failed">Couldn\'t get 2FA setup data</string>
+
+    <string name="tab_categories">Categories</string>
+    <string name="tab_notes">Notes</string>
+    <string name="tab_profile">Profile</string>
+
+    <string name="session_expired_title">Session expired</string>
+    <string name="session_expired_message">Your session has expired. Log in again to keep working with your notes.</string>
+
+    <string name="login_title">Welcome back</string>
+    <string name="login_subtitle">Log in to continue working with your notes.</string>
+    <string name="login_forgot_password">Forgot password?</string>
+    <string name="login_no_account">Don\'t have an account?</string>
+    <string name="login_email_not_found_hint">No account found with this email. Want to sign up?</string>
+
+    <string name="login_otp_title">Confirmation code</string>
+    <string name="login_otp_subtitle">Enter the 6-digit code from your authenticator app.</string>
+    <string name="login_otp_code_label">Code</string>
+    <string name="login_otp_expires_in">Code expires in: %1$ds</string>
+    <string name="login_otp_expired">Code expired. Please log in again.</string>
+    <string name="login_otp_error_invalid_code">Enter a 6-digit code</string>
+    <string name="login_otp_back_to_login">Go to login</string>
+
+    <string name="signup_title">Sign up</string>
+    <string name="signup_subtitle">Create an account to start working with your notes.</string>
+    <string name="signup_name_label">Name</string>
+    <string name="signup_submit">Create account</string>
+    <string name="signup_error_email_taken">This email is already registered</string>
+    <string name="signup_password_hint">At least 8 characters</string>
+
+    <string name="signup_sent_title">Check your email</string>
+    <string name="signup_sent_subtitle">We sent a confirmation link to %1$s</string>
+    <string name="signup_sent_action">Go to login</string>
+
+    <string name="forgot_title">Password recovery</string>
+    <string name="forgot_email_field_label">Email</string>
+    <string name="forgot_email_subtitle">Enter your account email — we\'ll send you a 6-digit code.</string>
+    <string name="forgot_email_not_found">No account found with this email</string>
+    <string name="forgot_send_code">Send code</string>
+    <string name="forgot_code_title">Confirmation code</string>
+    <string name="forgot_code_subtitle">We sent a 6-digit code to %1$s</string>
+    <string name="forgot_code_field_label">Code</string>
+    <string name="forgot_code_hint">The code must be 6 digits</string>
+    <string name="forgot_new_password_title">New password</string>
+    <string name="forgot_update_password">Update password</string>
+    <string name="forgot_done_title">Password updated</string>
+    <string name="forgot_done_subtitle">You can now log in with your new password.</string>
+    <string name="forgot_go_to_login">Go to login</string>
+
+    <string name="notes_title">Notes</string>
+    <string name="notes_new">New note</string>
+    <string name="notes_empty">Nothing found</string>
+    <string name="notes_untitled">Untitled</string>
+    <string name="notes_search_placeholder">Search notes</string>
+    <string name="notes_filter_all">All</string>
+    <string name="notes_filter_starred">Starred</string>
+    <string name="notes_filter_category">Category</string>
+    <string name="notes_filter_category_selected">Category: %1$s</string>
+    <string name="notes_select_hint">Select a note on the left</string>
+
+    <string name="category_all_categories">All categories</string>
+
+    <string name="status_active">Public</string>
+    <string name="status_archived">Archived</string>
+    <string name="status_draft">Draft</string>
+
+    <string name="note_title">Note</string>
+    <string name="note_title_label">Title</string>
+    <string name="note_category_label">Category</string>
+    <string name="note_status_label">Status</string>
+    <string name="note_no_category">No category</string>
+    <string name="note_new_category">+ New category</string>
+    <string name="note_editing">Editing</string>
+    <string name="note_edit">Edit</string>
+    <string name="note_saved">Saved</string>
+    <string name="note_not_found">Note not found</string>
+    <string name="note_updated_at">Updated: %1$s</string>
+    <string name="note_delete_title">Delete note?</string>
+    <string name="note_delete_message">The note will be deleted permanently.</string>
+
+    <string name="conflict_title">Sync conflict</string>
+    <string name="conflict_message">This note was changed on the server while you were editing it offline. Which version should we keep?</string>
+    <string name="conflict_server_preview">On server: \"%1$s\"</string>
+    <string name="conflict_keep_local">Keep my version</string>
+    <string name="conflict_accept_server">Use server version</string>
+
+    <string name="markdown_bold">Bold</string>
+    <string name="markdown_italic">Italic</string>
+    <string name="markdown_bullet_list">Bullet list</string>
+    <string name="markdown_numbered_list">Numbered list</string>
+    <string name="markdown_code">Code</string>
+
+    <string name="category_new_title">New category</string>
+    <string name="category_rename">Rename</string>
+    <string name="category_rename_title">Rename category</string>
+    <string name="category_parent_label">Parent category</string>
+    <string name="category_top_level">Top level</string>
+    <string name="category_empty">No categories yet</string>
+    <string name="category_delete_title">Delete category \"%1$s\"?</string>
+    <string name="category_delete_message">Child categories will become top-level categories. Notes in this category will become uncategorized.</string>
+
+    <string name="profile_title">Profile</string>
+    <string name="profile_no_name">No name</string>
+    <string name="profile_section_account">Account</string>
+    <string name="profile_section_security">Security</string>
+    <string name="profile_section_other">Other</string>
+    <string name="profile_system_theme">System theme</string>
+    <string name="profile_dark_theme">Dark theme</string>
+    <string name="profile_language">Language</string>
+    <string name="profile_password">Password</string>
+    <string name="profile_password_dialog_title">Change password</string>
+    <string name="profile_password_new">New password</string>
+    <string name="profile_password_repeat">Repeat password</string>
+    <string name="profile_password_error_empty">Enter a new password</string>
+    <string name="profile_password_error_mismatch">Passwords don\'t match</string>
+    <string name="profile_password_changed">Password changed</string>
+    <string name="profile_tfa">Two-factor authentication</string>
+    <string name="profile_tfa_setup_title">Set up 2FA</string>
+    <string name="profile_tfa_setup_subtitle">Scan the QR code in your authenticator app (Google Authenticator, Authy, etc.)</string>
+    <string name="profile_tfa_setup_manual_hint">Or enter this code manually:</string>
+    <string name="profile_about">About</string>
+    <string name="profile_sign_out">Sign out</string>
+    <string name="profile_save">Save</string>
+    <string name="profile_cancel">Cancel</string>
+
+    <string name="language_dialog_title">Language</string>
+    <string name="language_system">System default</string>
+    <string name="language_russian">Russian</string>
+    <string name="language_english">English</string>
+
+    <string name="about_title">About</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_author">Author: %1$s</string>
+    <string name="about_contact">Contact: %1$s</string>
+    <string name="about_feedback_title">Feedback</string>
+    <string name="about_feedback_contact_label">Contact info</string>
+    <string name="about_feedback_message_label">Message</string>
+    <string name="about_feedback_send">Send</string>
+    <string name="about_feedback_sent">Thank you! Your message has been sent.</string>
+    <string name="about_feedback_error_fill_fields">Please fill in your name and contact info</string>
+
+    <string name="servers_title">Servers</string>
+    <string name="servers_add_title">Add server</string>
+    <string name="servers_name_label">Name</string>
+    <string name="servers_address_label">Server address</string>
+    <string name="servers_address_placeholder">10.0.2.2:9077</string>
+    <string name="servers_default_suffix">%1$s (default)</string>
+    <string name="servers_error_fill_fields">Please fill in the name and address</string>
+
+    <string name="time_just_now">Just now</string>
+    <plurals name="time_minutes_ago">
+        <item quantity="one">%d minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
+    <plurals name="time_hours_ago">
+        <item quantity="one">%d hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
+    <plurals name="time_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <plurals name="note_word_count">
+        <item quantity="one">%d word</item>
+        <item quantity="other">%d words</item>
+    </plurals>
+</resources>

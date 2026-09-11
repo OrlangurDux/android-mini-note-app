@@ -1,0 +1,9 @@
+# Normalize line endings for everyone, regardless of OS/editor.
+* text=auto eol=lf
+
+*.bat text eol=crlf
+
+*.jar binary
+*.png binary
+*.jpg binary
+*.ico binary
