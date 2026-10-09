@@ -14,7 +14,7 @@ import app.mininote.mininote.data.local.db.entity.ServerEntity
 
 @Database(
     entities = [ServerEntity::class, NoteEntity::class, CategoryEntity::class, OutboxEntity::class],
-    version = 5,
+    version = 6,
     exportSchema = false,
 )
 @TypeConverters(Converters::class)

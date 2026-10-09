@@ -2,13 +2,6 @@
 .gradle/
 /local.properties
 local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-/.idea/shelf
 .DS_Store
 **/build/
 /captures
@@ -30,3 +23,4 @@ CLAUDE.md
 mini-note-design/
 
 .idea
+.claude

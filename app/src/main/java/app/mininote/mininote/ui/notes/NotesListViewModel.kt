@@ -9,6 +9,7 @@ import app.mininote.mininote.data.remote.ApiResult
 import app.mininote.mininote.data.repository.AuthRepository
 import app.mininote.mininote.data.repository.CategoriesRepository
 import app.mininote.mininote.data.repository.NotesRepository
+import app.mininote.mininote.sync.SyncScheduler
 import app.mininote.mininote.util.descendantsOf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -44,6 +45,7 @@ data class NotesListUiState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val isOffline: Boolean = false,
+    val isSyncing: Boolean = false,
 ) {
     val displayedNotes: List<NoteEntity>
         get() = if (searchQuery.isNotBlank()) {
@@ -79,6 +81,7 @@ class NotesListViewModel @Inject constructor(
     private val categoriesRepository: CategoriesRepository,
     private val authRepository: AuthRepository,
     private val connectivityObserver: ConnectivityObserver,
+    private val syncScheduler: SyncScheduler,
 ) : ViewModel() {
 
     private val localState = MutableStateFlow(LocalUiState())
@@ -92,7 +95,8 @@ class NotesListViewModel @Inject constructor(
         categoriesRepository.observeCategories(),
         localState,
         connectivityObserver.observe(),
-    ) { notes, categories, local, isOnline ->
+        syncScheduler.observeSyncing(),
+    ) { notes, categories, local, isOnline, isSyncing ->
         NotesListUiState(
             notes = notes,
             categories = categories,
@@ -103,6 +107,7 @@ class NotesListViewModel @Inject constructor(
             isLoading = local.isLoading,
             errorMessage = local.errorMessage,
             isOffline = !isOnline,
+            isSyncing = isSyncing,
         )
         // Eagerly, не WhileSubscribed: этот экран — постоянный "хаб" (список переживает визиты в
         // NoteDetailScreen на той же backstack-записи). WhileSubscribed отписывается от Room-Flow,
@@ -152,6 +157,11 @@ class NotesListViewModel @Inject constructor(
             val showError = error != null && connectivityObserver.isOnlineNow()
             localState.update { it.copy(isLoading = false, errorMessage = if (showError) error else null) }
         }
+    }
+
+    /** Ручная синхронизация: push очереди + pull (то же, что делает фоновый воркер). */
+    fun onSyncNow() {
+        syncScheduler.enqueueOneTime()
     }
 
     fun onFilterSelected(filter: NotesFilter) {

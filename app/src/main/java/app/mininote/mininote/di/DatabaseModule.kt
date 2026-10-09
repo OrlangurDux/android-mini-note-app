@@ -12,11 +12,27 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+
+    /** Дубли строк с одним serverId (гонка pull-рефреша и SyncWorker) схлопываем, оставляя
+     * самую раннюю, и закрываем возможность повтора уникальным индексом. */
+    private val MIGRATION_5_6 = object : Migration(5, 6) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            for (table in listOf("notes", "categories")) {
+                db.execSQL(
+                    "DELETE FROM $table WHERE serverId IS NOT NULL AND localId NOT IN " +
+                        "(SELECT MIN(localId) FROM $table WHERE serverId IS NOT NULL GROUP BY serverId)",
+                )
+                db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_${table}_serverId ON $table (serverId)")
+            }
+        }
+    }
 
     @Provides
     @Singleton
@@ -25,6 +41,7 @@ object DatabaseModule {
             // До релиза реальных миграций нет — при изменении схемы просто пересоздаём локальную БД
             // (это только кэш серверных данных + недосинхронизированная локальная очередь; в проде,
             // когда закладывать назад будет поздно, здесь нужны настоящие Migration).
+            .addMigrations(MIGRATION_5_6)
             .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
 

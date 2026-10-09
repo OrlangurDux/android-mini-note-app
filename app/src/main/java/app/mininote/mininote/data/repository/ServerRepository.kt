@@ -46,6 +46,17 @@ class ServerRepository @Inject constructor(
         return serverDao.insert(entity)
     }
 
+    suspend fun updateServer(server: ServerEntity, name: String, address: String) {
+        require(!server.isDefault) { "Сервер по умолчанию нельзя изменить" }
+        val oldBaseUrl = server.baseUrl
+        val updated = server.copy(name = name, baseUrl = normalizeServerAddress(address))
+        serverDao.update(updated)
+        // Правка активного сервера действует со следующего же запроса.
+        if (activeServerHolder.current.baseUrl == oldBaseUrl) {
+            activeServerHolder.update(ServerConfig(name = updated.name, baseUrl = updated.baseUrl))
+        }
+    }
+
     suspend fun deleteServer(server: ServerEntity) {
         require(!server.isDefault) { "Сервер по умолчанию нельзя удалить" }
         serverDao.delete(server)

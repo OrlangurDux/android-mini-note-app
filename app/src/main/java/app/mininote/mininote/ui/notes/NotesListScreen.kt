@@ -5,6 +5,9 @@ package app.mininote.mininote.ui.notes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.filled.Sync
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -83,6 +86,15 @@ fun NotesListScreen(
                 TopAppBar(
                     title = { Text(stringResource(R.string.notes_title), style = MaterialTheme.typography.headlineSmall) },
                     actions = {
+                        if (uiState.isSyncing) {
+                            Box(Modifier.size(48.dp), contentAlignment = Alignment.Center) {
+                                CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
+                            }
+                        } else {
+                            IconButton(onClick = viewModel::onSyncNow) {
+                                Icon(Icons.Filled.Sync, contentDescription = stringResource(R.string.action_sync))
+                            }
+                        }
                         IconButton(onClick = viewModel::onToggleSearchVisible) {
                             Icon(
                                 imageVector = if (uiState.isSearchVisible) Icons.Filled.Close else Icons.Filled.Search,

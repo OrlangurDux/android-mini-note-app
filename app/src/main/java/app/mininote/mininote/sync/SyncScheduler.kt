@@ -7,7 +7,10 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -34,6 +37,12 @@ class SyncScheduler @Inject constructor(
             .build()
         workManager.enqueueUniqueWork(ONE_TIME_WORK_NAME, ExistingWorkPolicy.REPLACE, request)
     }
+
+    /** true, пока одноразовая синхронизация ждёт сети или выполняется. */
+    fun observeSyncing(): Flow<Boolean> =
+        workManager.getWorkInfosForUniqueWorkFlow(ONE_TIME_WORK_NAME).map { infos ->
+            infos.any { it.state == WorkInfo.State.RUNNING || it.state == WorkInfo.State.ENQUEUED }
+        }
 
     companion object {
         private const val PERIODIC_WORK_NAME = "mininote_periodic_sync"

@@ -8,6 +8,7 @@
     <string name="action_done">Готово</string>
     <string name="action_hide_password">Скрыть пароль</string>
     <string name="action_login">Войти</string>
+    <string name="action_sync">Синхронизировать</string>
     <string name="action_search">Поиск</string>
     <string name="action_servers">Серверы</string>
     <string name="action_show_password">Показать пароль</string>
@@ -112,6 +113,7 @@
     <string name="markdown_italic">Курсив</string>
     <string name="markdown_bullet_list">Маркированный список</string>
     <string name="markdown_numbered_list">Нумерованный список</string>
+    <string name="markdown_checklist">Чек-лист</string>
     <string name="markdown_code">Код</string>
 
     <string name="category_new_title">Новая категория</string>
@@ -164,6 +166,9 @@
     <string name="about_feedback_error_fill_fields">Заполните имя и контакт</string>
 
     <string name="servers_title">Серверы</string>
+    <string name="servers_edit_title">Изменить сервер</string>
+    <string name="servers_edit">Изменить</string>
+    <string name="servers_cancel_edit">Отмена</string>
     <string name="servers_add_title">Добавить сервер</string>
     <string name="servers_name_label">Название</string>
     <string name="servers_address_label">Адрес сервера</string>

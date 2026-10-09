@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- M3 ColorScheme определяется в ui/theme/Color.kt (Compose), не здесь. -->
+    <!-- Средний тон фона splash-арта (Splash/Android): фон окна до отрисовки + системный splash на API 31+. -->
+    <color name="splash_background">#4DA6FF</color>
 </resources>

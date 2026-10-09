@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
+import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.FormatBold
 import androidx.compose.material.icons.filled.FormatItalic
@@ -33,7 +34,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.TextRange
 import app.mininote.mininote.R
+import app.mininote.mininote.util.tasksFromEditor
+import app.mininote.mininote.util.tasksToEditor
+import com.mohamedrejeb.richeditor.model.RichTextState
 import com.mohamedrejeb.richeditor.model.HeadingStyle
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
@@ -63,7 +68,7 @@ fun MarkdownEditor(
     // перезагружаем модель. Пропускаем, если value — это эхо нашего же последнего toMarkdown().
     LaunchedEffect(value) {
         if (value != lastKnownMarkdown) {
-            richTextState.setMarkdown(value)
+            richTextState.setMarkdown(tasksToEditor(value))
             lastKnownMarkdown = value
         }
     }
@@ -71,7 +76,7 @@ fun MarkdownEditor(
     // Любое редактирование пользователем меняет richTextState.annotatedString — прокидываем
     // актуальный markdown наверх, снова запоминая его, чтобы эффект выше не перезагрузил модель.
     LaunchedEffect(richTextState.annotatedString) {
-        val markdown = richTextState.toMarkdown()
+        val markdown = tasksFromEditor(richTextState.toMarkdown())
         if (markdown != lastKnownMarkdown) {
             lastKnownMarkdown = markdown
             onValueChange(markdown)
@@ -125,6 +130,9 @@ fun MarkdownEditor(
             ToolbarIconButton(active = richTextState.isOrderedList, onClick = { richTextState.toggleOrderedList() }) {
                 Icon(Icons.Filled.FormatListNumbered, contentDescription = stringResource(R.string.markdown_numbered_list))
             }
+            ToolbarIconButton(active = false, onClick = { toggleChecklistItem(richTextState) }) {
+                Icon(Icons.Filled.Checklist, contentDescription = stringResource(R.string.markdown_checklist))
+            }
             ToolbarIconButton(active = richTextState.isCodeSpan, onClick = { richTextState.toggleCodeSpan() }) {
                 Icon(Icons.Filled.Code, contentDescription = stringResource(R.string.markdown_code))
             }
@@ -158,5 +166,24 @@ private fun ToolbarIconButton(active: Boolean, onClick: () -> Unit, icon: @Compo
         ),
     ) {
         icon()
+    }
+}
+
+/**
+ * Пункт чек-листа в модели редактора — элемент маркированного списка с "☐ " в начале (см.
+ * [tasksToEditor]). В тексте движка маркер списка — настоящие символы "• ", абзацы разделены не
+ * переводом строки, поэтому начало текущего пункта ищем как ближайший "• " слева от курсора.
+ * Повторное нажатие на пункте с чекбоксом убирает его.
+ */
+private fun toggleChecklistItem(state: RichTextState) {
+    if (!state.isUnorderedList) state.toggleUnorderedList()
+    val text = state.annotatedString.text
+    val marker = text.lastIndexOf("• ", (state.selection.min - 1).coerceAtLeast(0))
+    if (marker < 0) return
+    val start = marker + 2
+    if (text.startsWith("\u2610 ", start) || text.startsWith("\u2611 ", start)) {
+        state.removeTextRange(TextRange(start, start + 2))
+    } else {
+        state.addTextAtIndex(start, "\u2610 ")
     }
 }

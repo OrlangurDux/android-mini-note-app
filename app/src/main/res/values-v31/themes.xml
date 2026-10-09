@@ -1,0 +1,10 @@
+<resources>
+    <!-- Системный splash Android 12+ не умеет показывать полноэкранный арт, только иконку по центру —
+         гасим его (фон + прозрачная иконка), а сам арт рисует Compose-экран SplashScreen. -->
+    <style name="Theme.MiniNote" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/splash_background</item>
+        <item name="android:windowSplashScreenBackground">@color/splash_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_empty</item>
+    </style>
+</resources>

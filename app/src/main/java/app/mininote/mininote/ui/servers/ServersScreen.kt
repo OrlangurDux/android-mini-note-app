@@ -15,6 +15,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
@@ -82,6 +84,7 @@ fun ServersScreen(
                         server = server,
                         selected = server.baseUrl == uiState.activeBaseUrl,
                         onSelect = { viewModel.selectServer(server) },
+                        onEdit = { viewModel.startEdit(server) },
                         onDelete = { viewModel.deleteServer(server) },
                     )
                     HorizontalDivider()
@@ -92,7 +95,10 @@ fun ServersScreen(
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                Text(text = stringResource(R.string.servers_add_title), style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = stringResource(if (uiState.editingServer != null) R.string.servers_edit_title else R.string.servers_add_title),
+                    style = MaterialTheme.typography.titleMedium,
+                )
                 uiState.addError?.let { ErrorBanner(it) }
                 OutlinedTextField(
                     value = uiState.newServerName,
@@ -112,6 +118,11 @@ fun ServersScreen(
                 Button(onClick = viewModel::saveNewServer, modifier = Modifier.fillMaxWidth()) {
                     Text(stringResource(R.string.profile_save))
                 }
+                if (uiState.editingServer != null) {
+                    OutlinedButton(onClick = viewModel::cancelEdit, modifier = Modifier.fillMaxWidth()) {
+                        Text(stringResource(R.string.servers_cancel_edit))
+                    }
+                }
             }
         }
     }
@@ -122,6 +133,7 @@ private fun ServerRow(
     server: ServerEntity,
     selected: Boolean,
     onSelect: () -> Unit,
+    onEdit: () -> Unit,
     onDelete: () -> Unit,
 ) {
     Row(
@@ -137,6 +149,9 @@ private fun ServerRow(
             Text(text = server.baseUrl, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         if (!server.isDefault) {
+            IconButton(onClick = onEdit) {
+                Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.servers_edit))
+            }
             IconButton(onClick = onDelete) {
                 Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.action_delete), tint = MaterialTheme.colorScheme.error)
             }

@@ -17,6 +17,8 @@ import app.mininote.mininote.sync.SyncScheduler
 import com.squareup.moshi.JsonAdapter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -41,6 +43,10 @@ class NotesRepository @Inject constructor(
     private val connectivityObserver: ConnectivityObserver,
     private val errorAdapter: JsonAdapter<ErrorEnvelopeDto>,
 ) {
+    // Сериализует pull-обновления (VM, SyncWorker, поиск): иначе два параллельных upsert одной
+    // серверной заметки оба не находят её по serverId и вставляют дубль.
+    private val pullMutex = Mutex()
+
     fun observeNotes(): Flow<List<NoteEntity>> = noteDao.observeAll()
 
     fun observeNote(localId: Long): Flow<NoteEntity?> = noteDao.observeByLocalId(localId)
@@ -49,7 +55,7 @@ class NotesRepository @Inject constructor(
 
     suspend fun refresh(): ApiResult<Unit> {
         return when (val result = safeApiCall(context, errorAdapter) { notesApi.getNotes() }) {
-            is ApiResult.Success -> {
+            is ApiResult.Success -> pullMutex.withLock {
                 val dtos = result.data.data?.items.orEmpty()
                 // Заметки с незапушенным UPDATE не трогаем — их разрешит конфликт-чек в SyncWorker
                 // перед отправкой; если пул перезапишет их первым, локальная правка молча потеряется.
@@ -69,7 +75,7 @@ class NotesRepository @Inject constructor(
             return noteDao.searchLocal(query)
         }
         return when (val result = safeApiCall(context, errorAdapter) { notesApi.search(query) }) {
-            is ApiResult.Success -> {
+            is ApiResult.Success -> pullMutex.withLock {
                 val dirtyLocalIds = outboxRepository.pendingLocalIds(OutboxEntityType.NOTE, OutboxOperation.UPDATE)
                 result.data.data.orEmpty().map { upsertFromDto(it, dirtyLocalIds) }
             }

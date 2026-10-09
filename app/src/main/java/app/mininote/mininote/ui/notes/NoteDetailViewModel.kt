@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.mininote.mininote.R
+import app.mininote.mininote.util.toggleTaskAtLine
 import app.mininote.mininote.data.local.db.entity.CategoryEntity
 import app.mininote.mininote.data.local.db.entity.hasConflict
 import app.mininote.mininote.data.repository.CategoriesRepository
@@ -161,6 +162,27 @@ class NoteDetailViewModel @AssistedInject constructor(
             val note = notesRepository.getNote(localId) ?: return@launch
             notesRepository.toggleStarred(localId, note)
             draft.update { it.copy(isStarred = !it.isStarred) }
+        }
+    }
+
+    /** Чек/анчек пункта `[ ]` в режиме просмотра: правит исходный markdown и сразу сохраняет (через outbox → сервер). */
+    fun onToggleTask(lineIndex: Int) {
+        val state = draft.value
+        val localId = state.localId ?: return
+        if (state.isEditing || state.isNew) return
+        val updated = toggleTaskAtLine(state.content, lineIndex)
+        if (updated == state.content) return
+        draft.update { it.copy(content = updated) }
+        viewModelScope.launch {
+            notesRepository.updateNote(
+                localId = localId,
+                title = state.title,
+                note = updated,
+                status = state.status,
+                categoryLocalId = state.categoryLocalId,
+            )
+            val saved = notesRepository.getNote(localId)
+            draft.update { it.copy(updatedAt = saved?.updatedAt ?: it.updatedAt) }
         }
     }
 

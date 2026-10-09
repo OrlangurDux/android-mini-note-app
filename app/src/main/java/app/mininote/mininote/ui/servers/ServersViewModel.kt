@@ -24,12 +24,14 @@ data class ServersUiState(
     val newServerName: String = "",
     val newServerAddress: String = "",
     val addError: String? = null,
+    val editingServer: ServerEntity? = null,
 )
 
 private data class ServerFormState(
     val name: String = "",
     val address: String = "",
     val error: String? = null,
+    val editing: ServerEntity? = null,
 )
 
 @HiltViewModel
@@ -52,6 +54,7 @@ class ServersViewModel @Inject constructor(
             newServerName = form.name,
             newServerAddress = form.address,
             addError = form.error,
+            editingServer = form.editing,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ServersUiState())
 
@@ -66,6 +69,19 @@ class ServersViewModel @Inject constructor(
         viewModelScope.launch { serverRepository.deleteServer(server) }
     }
 
+    fun startEdit(server: ServerEntity) {
+        // Адрес показываем без служебного хвоста /api/v1/ — его добавляет normalizeServerAddress.
+        formState.value = ServerFormState(
+            name = server.name,
+            address = server.baseUrl.removeSuffix("/").removeSuffix("/api/v1"),
+            editing = server,
+        )
+    }
+
+    fun cancelEdit() {
+        formState.value = ServerFormState()
+    }
+
     fun saveNewServer() {
         val form = formState.value
         if (form.name.isBlank() || form.address.isBlank()) {
@@ -73,7 +89,12 @@ class ServersViewModel @Inject constructor(
             return
         }
         viewModelScope.launch {
-            serverRepository.addServer(form.name.trim(), form.address.trim())
+            val editing = form.editing
+            if (editing != null) {
+                serverRepository.updateServer(editing, form.name.trim(), form.address.trim())
+            } else {
+                serverRepository.addServer(form.name.trim(), form.address.trim())
+            }
             formState.value = ServerFormState()
         }
     }

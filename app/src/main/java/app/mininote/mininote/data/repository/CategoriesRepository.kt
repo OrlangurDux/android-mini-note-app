@@ -14,6 +14,8 @@ import app.mininote.mininote.sync.SyncScheduler
 import com.squareup.moshi.JsonAdapter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,11 +28,13 @@ class CategoriesRepository @Inject constructor(
     private val syncScheduler: SyncScheduler,
     private val errorAdapter: JsonAdapter<ErrorEnvelopeDto>,
 ) {
+    private val pullMutex = Mutex()
+
     fun observeCategories(): Flow<List<CategoryEntity>> = categoryDao.observeAll()
 
     suspend fun refresh(): ApiResult<Unit> {
         return when (val result = safeApiCall(context, errorAdapter) { categoriesApi.getCategories() }) {
-            is ApiResult.Success -> {
+            is ApiResult.Success -> pullMutex.withLock {
                 val dtos = result.data.data?.items.orEmpty()
                 // Категории-родители должны быть засеяны раньше детей, чтобы parentLocalId резолвился с первого прохода.
                 val ordered = dtos.sortedBy { if (it.parent_id == ZERO_OBJECT_ID) 0 else 1 }

@@ -1,6 +1,7 @@
 package app.mininote.mininote.data.local.db.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 /**
@@ -24,7 +25,7 @@ import androidx.room.PrimaryKey
  * тоггл-вызов на заметку (сколько бы раз её ни звездили офлайн — важна только чётность/итоговое
  * состояние, а не количество нажатий).
  */
-@Entity(tableName = "notes")
+@Entity(tableName = "notes", indices = [Index(value = ["serverId"], unique = true)])
 data class NoteEntity(
     @PrimaryKey(autoGenerate = true) val localId: Long = 0,
     val serverId: String? = null,

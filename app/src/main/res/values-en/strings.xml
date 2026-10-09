@@ -8,6 +8,7 @@
     <string name="action_done">Done</string>
     <string name="action_hide_password">Hide password</string>
     <string name="action_login">Log in</string>
+    <string name="action_sync">Sync now</string>
     <string name="action_search">Search</string>
     <string name="action_servers">Servers</string>
     <string name="action_show_password">Show password</string>
@@ -112,6 +113,7 @@
     <string name="markdown_italic">Italic</string>
     <string name="markdown_bullet_list">Bullet list</string>
     <string name="markdown_numbered_list">Numbered list</string>
+    <string name="markdown_checklist">Checklist</string>
     <string name="markdown_code">Code</string>
 
     <string name="category_new_title">New category</string>
@@ -164,6 +166,9 @@
     <string name="about_feedback_error_fill_fields">Please fill in your name and contact info</string>
 
     <string name="servers_title">Servers</string>
+    <string name="servers_edit_title">Edit server</string>
+    <string name="servers_edit">Edit</string>
+    <string name="servers_cancel_edit">Cancel</string>
     <string name="servers_add_title">Add server</string>
     <string name="servers_name_label">Name</string>
     <string name="servers_address_label">Server address</string>

@@ -208,7 +208,11 @@ fun NoteDetailScreen(
                     }
                 }
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp))
-                MarkdownViewer(markdown = uiState.content, modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp))
+                MarkdownViewer(
+                    markdown = uiState.content,
+                    onToggleTask = viewModel::onToggleTask,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                )
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,

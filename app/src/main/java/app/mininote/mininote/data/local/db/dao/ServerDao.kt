@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import app.mininote.mininote.data.local.db.entity.ServerEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -20,6 +21,9 @@ interface ServerDao {
 
     @Insert
     suspend fun insert(server: ServerEntity): Long
+
+    @Update
+    suspend fun update(server: ServerEntity)
 
     @Delete
     suspend fun delete(server: ServerEntity)

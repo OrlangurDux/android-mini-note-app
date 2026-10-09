@@ -5,12 +5,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
@@ -40,10 +44,17 @@ import org.commonmark.node.Paragraph
 import org.commonmark.node.SoftLineBreak
 import org.commonmark.node.StrongEmphasis
 import org.commonmark.node.ThematicBreak
+import org.commonmark.parser.IncludeSourceSpans
 import org.commonmark.parser.Parser
+import app.mininote.mininote.util.taskStateOf
 import org.commonmark.node.Text as MdText
 
-private val markdownParser: Parser by lazy { Parser.builder().build() }
+// Source spans нужны, чтобы чекбокс знал свою строку в исходном markdown (см. toggleTaskAtLine).
+private val markdownParser: Parser by lazy {
+    Parser.builder().includeSourceSpans(IncludeSourceSpans.BLOCKS).build()
+}
+
+private val LocalTaskToggle = staticCompositionLocalOf<((Int) -> Unit)?> { null }
 
 /**
  * Рендерит markdown как обычный текст заметки. Собственный небольшой рендерер поверх
@@ -55,10 +66,17 @@ private val markdownParser: Parser by lazy { Parser.builder().build() }
  * (рендерятся как подпись — в проекте нет загрузчика картинок), таблицы, HTML-вставки.
  */
 @Composable
-fun MarkdownViewer(markdown: String, modifier: Modifier = Modifier) {
+fun MarkdownViewer(
+    markdown: String,
+    modifier: Modifier = Modifier,
+    /** Вызывается с номером строки (0-based) исходного markdown при тапе по чекбоксу `[ ]`; null — чекбоксы только для чтения. */
+    onToggleTask: ((lineIndex: Int) -> Unit)? = null,
+) {
     val document = remember(markdown) { markdownParser.parse(markdown) }
-    Column(modifier = modifier) {
-        RenderBlock(document)
+    CompositionLocalProvider(LocalTaskToggle provides onToggleTask) {
+        Column(modifier = modifier) {
+            RenderBlock(document)
+        }
     }
 }
 
@@ -116,7 +134,9 @@ private fun RenderList(listNode: Node, ordered: Boolean) {
         var index = if (listNode is OrderedList) listNode.markerStartNumber ?: 1 else 1
         var item: Node? = listNode.firstChild
         while (item != null) {
-            if (item is ListItem) {
+            if (item is ListItem && taskStateOf(item) != null) {
+                TaskItem(item, checked = taskStateOf(item) == true)
+            } else if (item is ListItem) {
                 Row(modifier = Modifier.padding(vertical = 2.dp)) {
                     Text(
                         text = if (ordered) "$index." else "•",
@@ -130,6 +150,38 @@ private fun RenderList(listNode: Node, ordered: Boolean) {
                 index++
             }
             item = item.next
+        }
+    }
+}
+
+@Composable
+private fun TaskItem(item: ListItem, checked: Boolean) {
+    val toggle = LocalTaskToggle.current
+    val lineIndex = item.sourceSpans.firstOrNull()?.lineIndex
+    val paragraph = item.firstChild as Paragraph
+    val full = buildInline(paragraph)
+    var skip = 3
+    while (skip < full.length && full[skip] == ' ') skip++
+    val label = full.subSequence(skip, full.length)
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = { if (lineIndex != null) toggle?.invoke(lineIndex) },
+            enabled = toggle != null && lineIndex != null,
+        )
+        Column(modifier = Modifier.fillMaxWidth().padding(top = 12.dp)) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    textDecoration = if (checked) TextDecoration.LineThrough else null,
+                ),
+                color = if (checked) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface,
+            )
+            var sibling = paragraph.next
+            while (sibling != null) {
+                RenderBlock(sibling)
+                sibling = sibling.next
+            }
         }
     }
 }
