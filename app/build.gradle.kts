@@ -49,7 +49,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "DEFAULT_SERVER_NAME", "\"Локальный сервер\"")
+            buildConfigField("String", "DEFAULT_SERVER_URL", "\"http://10.0.2.2:9077/api/v1/\"")
+        }
         release {
+            buildConfigField("String", "DEFAULT_SERVER_NAME", "\"MiniNote\"")
+            buildConfigField("String", "DEFAULT_SERVER_URL", "\"https://mini-note.app/api/v1/\"")
             optimization {
                 enable = true
             }
@@ -61,6 +67,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }

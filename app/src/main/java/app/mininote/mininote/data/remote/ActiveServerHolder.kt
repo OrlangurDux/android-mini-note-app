@@ -1,5 +1,6 @@
 package app.mininote.mininote.data.remote
 
+import app.mininote.mininote.BuildConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
@@ -7,7 +8,8 @@ import javax.inject.Singleton
 
 data class ServerConfig(val name: String, val baseUrl: String)
 
-val DEFAULT_SERVER = ServerConfig(name = "Локальный сервер", baseUrl = "http://10.0.2.2:9077/api/v1/")
+// Debug — локальный бэкенд эмулятора, release — продовый сервер (см. buildTypes в app/build.gradle.kts).
+val DEFAULT_SERVER = ServerConfig(name = BuildConfig.DEFAULT_SERVER_NAME, baseUrl = BuildConfig.DEFAULT_SERVER_URL)
 
 /**
  * In-memory источник истины об активном сервере для [RoutingInterceptor] и [AuthInterceptor].
