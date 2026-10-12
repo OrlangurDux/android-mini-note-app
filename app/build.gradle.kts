@@ -8,6 +8,9 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+// Имя артефактов: mininote-release.apk / mininote-release.aab
+base.archivesName.set("mininote")
+
 val appVersionName = providers.gradleProperty("appVersionName").get()
 val appVersionCode = appVersionName.split(".").map { it.toInt() }
     .let { (major, minor, patch) -> major * 10_000 + minor * 100 + patch }
