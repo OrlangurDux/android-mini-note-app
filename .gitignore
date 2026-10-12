@@ -24,3 +24,7 @@ mini-note-design/
 
 .idea
 .claude
+# Release signing — never commit
+*.jks
+*.keystore
+keystore.properties

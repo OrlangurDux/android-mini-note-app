@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -5,6 +7,18 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
+
+val appVersionName = providers.gradleProperty("appVersionName").get()
+val appVersionCode = appVersionName.split(".").map { it.toInt() }
+    .let { (major, minor, patch) -> major * 10_000 + minor * 100 + patch }
+
+// Подпись релиза: keystore.properties (локально, в .gitignore) или переменные окружения (CI).
+// Если ничего не задано, release собирается без подписи.
+val keystoreProps = Properties().apply {
+    rootProject.file("keystore.properties").takeIf { it.exists() }?.reader()?.use(::load)
+}
+fun signingValue(key: String, env: String): String? =
+    keystoreProps.getProperty(key) ?: System.getenv(env)
 
 android {
     namespace = "app.mininote.mininote"
@@ -16,17 +30,30 @@ android {
         applicationId = "app.mininote.mininote"
         minSdk = 28
         targetSdk = 37
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = appVersionCode
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        val storeFilePath = signingValue("storeFile", "MININOTE_KEYSTORE_FILE")
+        if (storeFilePath != null) {
+            create("release") {
+                storeFile = rootProject.file(storeFilePath)
+                storePassword = signingValue("storePassword", "MININOTE_KEYSTORE_PASSWORD")
+                keyAlias = signingValue("keyAlias", "MININOTE_KEY_ALIAS")
+                keyPassword = signingValue("keyPassword", "MININOTE_KEY_PASSWORD")
+            }
+        }
     }
 
     buildTypes {
         release {
             optimization {
-                enable = false
+                enable = true
             }
+            signingConfigs.findByName("release")?.let { signingConfig = it }
         }
     }
     compileOptions {
