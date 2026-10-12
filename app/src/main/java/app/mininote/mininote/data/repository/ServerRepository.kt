@@ -1,5 +1,6 @@
 package app.mininote.mininote.data.repository
 
+import app.mininote.mininote.BuildConfig
 import app.mininote.mininote.data.local.db.dao.ServerDao
 import app.mininote.mininote.data.local.db.entity.ServerEntity
 import app.mininote.mininote.data.local.prefs.SettingsDataStore
@@ -11,11 +12,15 @@ import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/** В release разрешён только HTTPS; debug допускает HTTP для локального бэкенда (см. ALLOW_CLEARTEXT). */
+fun isAddressAllowed(input: String): Boolean =
+    BuildConfig.ALLOW_CLEARTEXT || !input.trim().startsWith("http://", ignoreCase = true)
+
 /** Приводит введённый пользователем адрес к полному base URL с фиксированным basePath бэкенда. */
 fun normalizeServerAddress(input: String): String {
     var address = input.trim().trimEnd('/')
     if (!address.startsWith("http://") && !address.startsWith("https://")) {
-        address = "http://$address"
+        address = (if (BuildConfig.ALLOW_CLEARTEXT) "http://" else "https://") + address
     }
     return "$address/api/v1/"
 }

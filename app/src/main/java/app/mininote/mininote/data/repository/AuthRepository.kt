@@ -180,6 +180,17 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    /** Удаляет аккаунт на сервере (`DELETE /users/profile`); при успехе чистит локальную сессию и кэш. */
+    suspend fun deleteAccount(): ApiResult<Unit> {
+        return when (val result = safeApiCall(context, errorAdapter) { authApi.deleteProfile() }) {
+            is ApiResult.Success -> {
+                logout()
+                ApiResult.Success(Unit)
+            }
+            is ApiResult.Failure -> result
+        }
+    }
+
     suspend fun getProfile(): ApiResult<UserProfileDto> {
         return when (val result = safeApiCall(context, errorAdapter) { authApi.getProfile() }) {
             is ApiResult.Success -> result.data.data?.let { ApiResult.Success(it) }

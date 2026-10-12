@@ -146,6 +146,10 @@
     <string name="profile_tfa_setup_manual_hint">Или введите код вручную:</string>
     <string name="profile_about">О приложении</string>
     <string name="profile_sign_out">Выйти</string>
+    <string name="profile_delete_account">Удалить аккаунт</string>
+    <string name="profile_delete_account_title">Удалить аккаунт?</string>
+    <string name="profile_delete_account_message">Аккаунт и все ваши заметки и категории будут безвозвратно удалены с сервера и с этого устройства. Это действие нельзя отменить.</string>
+    <string name="profile_delete_account_confirm">Удалить</string>
     <string name="profile_save">Сохранить</string>
     <string name="profile_cancel">Отмена</string>
 
@@ -172,6 +176,7 @@
     <string name="servers_add_title">Добавить сервер</string>
     <string name="servers_name_label">Название</string>
     <string name="servers_address_label">Адрес сервера</string>
+    <string name="servers_error_https_only">Разрешены только адреса HTTPS</string>
     <string name="servers_address_placeholder">10.0.2.2:9077</string>
     <string name="servers_default_suffix">%1$s (по умолчанию)</string>
     <string name="servers_error_fill_fields">Заполните название и адрес</string>

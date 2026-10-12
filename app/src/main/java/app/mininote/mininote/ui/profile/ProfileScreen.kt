@@ -22,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -173,7 +174,19 @@ fun ProfileScreen(
             OutlinedButton(onClick = viewModel::onLogout, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.profile_sign_out))
             }
+
+            TextButton(
+                onClick = viewModel::onRequestDeleteAccount,
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
+            ) {
+                Text(stringResource(R.string.profile_delete_account))
+            }
         }
+    }
+
+    if (uiState.showDeleteAccountDialog) {
+        DeleteAccountDialog(uiState = uiState, viewModel = viewModel)
     }
 
     if (uiState.showPasswordDialog) {
@@ -296,6 +309,34 @@ private fun ProfileRow(
         }
         HorizontalDivider()
     }
+}
+
+@Composable
+private fun DeleteAccountDialog(uiState: ProfileUiState, viewModel: ProfileViewModel) {
+    AlertDialog(
+        onDismissRequest = viewModel::onDismissDeleteAccount,
+        title = { Text(stringResource(R.string.profile_delete_account_title)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                uiState.deleteAccountError?.let { ErrorBanner(it) }
+                Text(stringResource(R.string.profile_delete_account_message))
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = viewModel::onConfirmDeleteAccount,
+                enabled = !uiState.isDeletingAccount,
+                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
+            ) {
+                Text(stringResource(R.string.profile_delete_account_confirm))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = viewModel::onDismissDeleteAccount, enabled = !uiState.isDeletingAccount) {
+                Text(stringResource(R.string.profile_cancel))
+            }
+        },
+    )
 }
 
 @Composable

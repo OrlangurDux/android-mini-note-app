@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.mininote.mininote.R
+import app.mininote.mininote.data.repository.isAddressAllowed
 import app.mininote.mininote.data.local.db.entity.ServerEntity
 import app.mininote.mininote.data.remote.ActiveServerHolder
 import app.mininote.mininote.data.repository.ServerRepository
@@ -86,6 +87,10 @@ class ServersViewModel @Inject constructor(
         val form = formState.value
         if (form.name.isBlank() || form.address.isBlank()) {
             formState.update { it.copy(error = context.getString(R.string.servers_error_fill_fields)) }
+            return
+        }
+        if (!isAddressAllowed(form.address)) {
+            formState.update { it.copy(error = context.getString(R.string.servers_error_https_only)) }
             return
         }
         viewModelScope.launch {

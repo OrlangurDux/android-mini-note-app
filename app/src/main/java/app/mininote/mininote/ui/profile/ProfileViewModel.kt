@@ -46,6 +46,9 @@ data class ProfileUiState(
     val passwordError: String? = null,
     val isSavingPassword: Boolean = false,
     val passwordChangedMessage: String? = null,
+    val showDeleteAccountDialog: Boolean = false,
+    val isDeletingAccount: Boolean = false,
+    val deleteAccountError: String? = null,
     val isTfaEnabled: Boolean = false,
     val isTfaBusy: Boolean = false,
     /** Не-null сразу после успешного включения 2FA — otpauth:// URL для диалога с QR-кодом.
@@ -180,6 +183,28 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onDismissTfaSetup() = _uiState.update { it.copy(tfaSetupUrl = null) }
+
+    fun onRequestDeleteAccount() =
+        _uiState.update { it.copy(showDeleteAccountDialog = true, deleteAccountError = null) }
+
+    fun onDismissDeleteAccount() {
+        if (!_uiState.value.isDeletingAccount) _uiState.update { it.copy(showDeleteAccountDialog = false) }
+    }
+
+    fun onConfirmDeleteAccount() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isDeletingAccount = true, deleteAccountError = null) }
+            when (val result = authRepository.deleteAccount()) {
+                is ApiResult.Success -> {
+                    _uiState.update { it.copy(isDeletingAccount = false, showDeleteAccountDialog = false) }
+                    _loggedOut.send(Unit)
+                }
+                is ApiResult.Failure -> _uiState.update {
+                    it.copy(isDeletingAccount = false, deleteAccountError = result.message)
+                }
+            }
+        }
+    }
 
     fun onLogout() {
         viewModelScope.launch {

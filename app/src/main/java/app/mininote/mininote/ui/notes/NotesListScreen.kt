@@ -32,6 +32,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -211,12 +212,20 @@ private fun FilterChipsRow(
                 )
             }
         }
-        FilterChip(
-            selected = selected == NotesFilter.Starred,
-            onClick = { onSelect(NotesFilter.Starred) },
-            label = { Text(stringResource(R.string.notes_filter_starred)) },
-            modifier = Modifier.padding(end = 16.dp),
-        )
+        // Иконка вместо текста: фиксированный элемент в углу не должен конкурировать за ширину с чипами
+        // в узкой панели списка (планшет, два столбца).
+        val starredSelected = selected == NotesFilter.Starred
+        IconToggleButton(
+            checked = starredSelected,
+            onCheckedChange = { onSelect(if (it) NotesFilter.Starred else NotesFilter.All) },
+            modifier = Modifier.padding(end = 8.dp),
+        ) {
+            Icon(
+                imageVector = if (starredSelected) Icons.Filled.Star else Icons.Outlined.Star,
+                contentDescription = stringResource(R.string.notes_filter_starred),
+                tint = if (starredSelected) MaterialTheme.extraColors.starred else MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
     }
 
     if (showCategorySheet) {

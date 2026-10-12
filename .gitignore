@@ -28,3 +28,9 @@ mini-note-design/
 *.jks
 *.keystore
 keystore.properties
+
+# Google Play graphics and store listing assets — not part of the repo
+play-store/
+
+# Icon/splash design pack (source assets)
+MiniNoteAppPack/
